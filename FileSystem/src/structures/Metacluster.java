@@ -24,6 +24,14 @@ public class Metacluster {
 		this.next = next;
 		this.end = end;
 		this.associatedCluster = associatedCluster;
+		
+		
+	}
+
+	@Override
+	public String toString() {
+		return "Metacluster [available=" + available + ", damaged=" + damaged + ", reserved=" + reserved + ", next="
+				+ next + ", end=" + end + ", associatedCluster=" + associatedCluster + "]";
 	}
 	
 	
