@@ -1,6 +1,7 @@
 package structures;
 
 public class Metacluster {
+	int index;
 	boolean available;
 	boolean damaged;
 	boolean reserved;
@@ -14,7 +15,7 @@ public class Metacluster {
 		this.reserved = false;
 		this.next = 0;
 		this.end = false;
-		associatedCluster = new File("", 1);
+		associatedCluster = new File("N/A", "N/A");
 	}
 	
 	public Metacluster(boolean available, boolean damaged, boolean reserved, int next, boolean end, Cluster associatedCluster) {
@@ -24,8 +25,6 @@ public class Metacluster {
 		this.next = next;
 		this.end = end;
 		this.associatedCluster = associatedCluster;
-		
-		
 	}
 
 	@Override
@@ -33,6 +32,4 @@ public class Metacluster {
 		return "Metacluster [available=" + available + ", damaged=" + damaged + ", reserved=" + reserved + ", next="
 				+ next + ", end=" + end + ", associatedCluster=" + associatedCluster + "]";
 	}
-	
-	
 }

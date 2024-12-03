@@ -1,6 +1,7 @@
 package main;
 import structures.Fat;
 import structures.Console;
+import structures.Directory;
 import java.util.Scanner;
 
 public class Main {
@@ -10,8 +11,8 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		Fat fat = new Fat(6);
 		Console console = new Console(fat);
-		int choice = 1;
-
+		int choice = 1; // Initialize the choice to 1 so that we can enter the choice loop later on
+		/*
 		System.out.print("Welcome to the program. ");
 		do {
 			System.out.println("Please choose an option below:");
@@ -30,6 +31,11 @@ public class Main {
 				break;
 			}
 		} while (choice != 6);
+		*/
 		
+		// DEBUG ZONE
+		Directory dir = new Directory("Pelis");
+		fat.addDirectory(dir);
+		System.out.println(fat.availableClusters());
 	}
 }
