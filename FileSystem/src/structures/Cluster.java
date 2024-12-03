@@ -8,12 +8,5 @@ public abstract class Cluster {
 	public Cluster(String name, int spaceNeeded) {
 		this.name = name;
 		this.spaceNeeded = spaceNeeded;
-		
-		
-	}
-
-	@Override
-	public String toString() {
-		return "Cluster [name=" + name + ", spaceNeeded=" + spaceNeeded + "]";
 	}
 }
