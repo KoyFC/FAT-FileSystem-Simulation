@@ -14,7 +14,7 @@ public class Metacluster {
 		this.reserved = false;
 		this.next = 0;
 		this.end = false;
-		associatedCluster = null;
+		associatedCluster = new File("", 1);
 	}
 	
 	public Metacluster(boolean available, boolean damaged, boolean reserved, int next, boolean end, Cluster associatedCluster) {

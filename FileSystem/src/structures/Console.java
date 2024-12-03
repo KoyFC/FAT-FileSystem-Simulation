@@ -2,7 +2,11 @@ package structures;
 
 public class Console {
 
+	Fat fat;
 	
+	public Console(Fat fat) {
+		this.fat = fat;
+	}
 	
 	public void printMetadata() {
 		
@@ -20,7 +24,7 @@ public class Console {
 		
 	}
 	
-	public void deleteFile() {
+	void deleteFile() {
 		
 	}
 	
