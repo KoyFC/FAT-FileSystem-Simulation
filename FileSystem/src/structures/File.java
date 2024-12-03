@@ -1,6 +1,7 @@
 package structures;
 
 public class File extends Cluster {
+
 	/**
 	 * File constructor
 	 * @param name name of the new file
@@ -10,4 +11,8 @@ public class File extends Cluster {
 		super(name, type.toUpperCase());
 	}
 
+	@Override
+	public String toString() {
+		return name + "." + type.toLowerCase();
+	}
 }

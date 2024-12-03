@@ -9,4 +9,9 @@ public class Directory extends Cluster {
 	public Directory(String name) {
 		super(name, "DIRECTORY");
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

@@ -8,9 +8,4 @@ public abstract class Cluster {
 		this.name = name;
 		this.type = type;
 	}
-
-	@Override
-	public String toString() {
-		return "Cluster [name=" + name + ", type=" + type + "]";
-	}
 }

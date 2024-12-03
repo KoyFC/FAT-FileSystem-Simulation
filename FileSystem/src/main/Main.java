@@ -11,6 +11,9 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		Fat fat = new Fat(6);
 		Console console = new Console(fat);
+		
+		// TODO: ESTA PARTE HAY QUE MOVERLA A LA CLASE CONSOLA
+		
 		int choice = 1; // Initialize the choice to 1 so that we can enter the choice loop later on
 		/*
 		System.out.print("Welcome to the program. ");
@@ -32,10 +35,15 @@ public class Main {
 			}
 		} while (choice != 6);
 		*/
+
 		
 		// DEBUG ZONE
+		
+		console.createFile();
+		System.out.println("\nAvailable clusters: " + fat.availableClusters());
+
 		Directory dir = new Directory("Pelis");
 		fat.addDirectory(dir);
-		System.out.println(fat.availableClusters());
+		System.out.println("\nAvailable clusters: " + fat.availableClusters());
 	}
 }
