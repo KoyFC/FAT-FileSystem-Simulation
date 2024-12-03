@@ -2,9 +2,10 @@ package structures;
 import java.util.ArrayList;
 
 public class Fat {
-	int clusterNumber;
+	public int clusterNumber;
+	public Directory rootDir;
 	
-	ArrayList<Metacluster> metadata = new ArrayList<Metacluster>();
+	public ArrayList<Metacluster> metadata = new ArrayList<Metacluster>();
 	// ArrayList<Cluster> data = new ArrayList<Cluster>();
 	
 	public Fat(int clusterNumber) {
@@ -13,5 +14,15 @@ public class Fat {
 		for (int i = 0; i < clusterNumber; i++) {
             metadata.add(new Metacluster());
         }
+		
+		rootDir = new Directory("Root");
+	}
+	
+	public void addFile(File file) {
+		
+	}
+	
+	public void addDirectory(Directory directory) {
+		
 	}
 }
