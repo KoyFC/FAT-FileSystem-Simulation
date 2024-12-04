@@ -42,8 +42,19 @@ public class Main {
 		console.createFile();
 		System.out.println("\nAvailable clusters: " + fat.availableClusters());
 
-		Directory dir = new Directory("Pelis");
-		fat.addDirectory(dir);
+		//Directory dir = new Directory("Pelis", fat.firstAvailableClusterIndex());
+		console.createDirectory();
 		System.out.println("\nAvailable clusters: " + fat.availableClusters());
+		
+		console.changeDirectory("Pelis");
+		System.out.println("Current directory: " + console.currentDirectory);
+		console.changeDirectory("..");
+		console.changeDirectory("..");
+		System.out.println("Current directory: " + console.currentDirectory);
+		console.changeDirectory("PelisBuenas");
+		System.out.println("Current directory: " + console.currentDirectory);
+		console.changeDirectory("Pelis");
+		System.out.println("Current directory: " + console.currentDirectory);
+		
 	}
 }

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 public class Fat {
 	public int clusterNumber;
 	public Directory rootDir;
+	public Console console;
 	
-	public ArrayList<Metacluster> metadata = new ArrayList<Metacluster>();
+	public ArrayList<Metacluster> metadata;
 	// ArrayList<Cluster> data = new ArrayList<Cluster>();
 	
 	/**
@@ -14,12 +15,19 @@ public class Fat {
 	 */
 	public Fat(int clusterNumber) {
 		this.clusterNumber = clusterNumber;
+		metadata = new ArrayList<Metacluster>();
 		
-		for (int i = 0; i < clusterNumber; i++) {
-            metadata.add(new Metacluster());
+		rootDir = new Directory("ROOT", 0, null);
+		Metacluster rootDirMetaCluster = new Metacluster(0);
+		rootDirMetaCluster.available = false;
+		rootDirMetaCluster.end = true;
+		rootDirMetaCluster.associatedData = rootDir;
+		
+		metadata.add(rootDirMetaCluster);
+		
+		for (int i = 1; i <= clusterNumber; i++) {
+            metadata.add(new Metacluster(i));
         }
-		
-		rootDir = new Directory("ROOT");
 	}
 	
 	/**
@@ -31,7 +39,10 @@ public class Fat {
 			Metacluster currentMetaCluster = firstAvailableCluster();
 			currentMetaCluster.available = false;
 			currentMetaCluster.end = true;
-			currentMetaCluster.associatedCluster = directory;
+			currentMetaCluster.associatedData = directory;
+			
+			directory.parentDir = console.currentDirectory;
+			console.currentDirectory.addContent(directory);
 			
 			System.out.println("\nDIRECTORY \"" + directory + "\" was created successfully.");
 		} 
@@ -60,12 +71,14 @@ public class Fat {
 			Metacluster currentMetaCluster;
 			Metacluster nextMetaCluster;
 			
+			file.firstClusterIndex = firstAvailableCluster().index;
+			
 			for (int i = 0; i < fileSize - 1; i++) { // -1 to change the "next" and "end" for the last cluster variables separately
 				// We will change data from the current cluster and immediately find the next one
 				nextMetaCluster = firstAvailableCluster();
 				currentMetaCluster = nextMetaCluster;
 				
-				currentMetaCluster.associatedCluster = file;
+				currentMetaCluster.associatedData = file;
 				currentMetaCluster.available = false;
 				currentMetaCluster.next = nextMetaCluster.index;
 				currentMetaCluster.end = false;
@@ -74,9 +87,10 @@ public class Fat {
 			}
 			currentMetaCluster = firstAvailableCluster();
 			
-			currentMetaCluster.associatedCluster = file;
+			currentMetaCluster.associatedData = file;
 			currentMetaCluster.available = false;
 			currentMetaCluster.end = true;
+			console.currentDirectory.addContent(file);
 			
 			// System.out.println(currentMetaCluster); // DEBUG
 			System.out.println("\nFILE \"" + file + "\" was created successfully.");

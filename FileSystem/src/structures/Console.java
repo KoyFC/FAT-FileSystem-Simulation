@@ -4,14 +4,37 @@ import java.util.Scanner;
 public class Console {
 
 	Fat fat;
+	public Directory currentDirectory;
 	
 	public Console(Fat fat) {
 		this.fat = fat;
+		this.currentDirectory = fat.rootDir;
+		fat.console = this;
 	}
 	
 	public void mainMessage() {
 		
 	}
+	
+	public void changeDirectory(String path) {
+        if (path.equals("..")) { // Parent dir
+        	if (currentDirectory.parentDir != null) {
+        		currentDirectory = currentDirectory.parentDir;
+        		System.out.println("Changed to parent directory: " + currentDirectory);
+        	}
+        	else System.err.println("ERROR301: There is no parent directory for " + currentDirectory + "!");
+        } else {
+            // Search through the current directory's content for the specified directory
+            for (Cluster cluster : currentDirectory.content) {
+                if (cluster instanceof Directory && cluster.name.equals(path)) {
+                    currentDirectory = (Directory) cluster;
+                    System.out.println("Changed to directory: " + currentDirectory.name);
+                    return;
+                }
+            }
+            System.err.println("ERROR300: Directory " + path + " was not found!");
+        }
+    }
 	
 	public void printMetadata() {
 		
@@ -27,7 +50,7 @@ public class Console {
 			name = sc.nextLine();
 		}
 		
-		Directory newDirectory = new Directory(name);
+		Directory newDirectory = new Directory(name, fat.firstAvailableClusterIndex(), currentDirectory);
 		fat.addDirectory(newDirectory);
 	}
 	
@@ -55,7 +78,7 @@ public class Console {
 			size = sc.nextInt();
 		}
 		
-		File newFile = new File(name, type);
+		File newFile = new File(name, type, fat.firstAvailableClusterIndex());
 		
 		fat.addFile(newFile, size);
 	}
