@@ -1,15 +1,20 @@
 package structures;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Console {
 
 	Fat fat;
-	public Directory currentDirectory;
+	public Directory currentDir;
+	ArrayList<Process> processList = new ArrayList<Process>();
 	
 	public Console(Fat fat) {
 		this.fat = fat;
-		this.currentDirectory = fat.rootDir;
+		this.currentDir = fat.rootDir;
 		fat.console = this;
+
+		Process consoleProcess = new Process(0, "Console");
+		processList.add(consoleProcess);
 	}
 	
 	public void mainMessage() {
@@ -18,21 +23,21 @@ public class Console {
 	
 	public void changeDirectory(String path) {
         if (path.equals("..")) { // Parent dir
-        	if (currentDirectory.parentDir != null) {
-        		currentDirectory = currentDirectory.parentDir;
-        		System.out.println("Changed to parent directory: " + currentDirectory);
+        	if (currentDir.parentDir != null) {
+        		currentDir = currentDir.parentDir;
+        		System.out.println("Changed to parent directory: " + currentDir);
         	}
-        	else System.err.println("ERROR301: There is no parent directory for " + currentDirectory + "!");
+        	else System.err.println("ERROR301: Tried to change directory, but there is no parent directory for \"" + currentDir + "\"!");
         } else {
-            // Search through the current directory's content for the specified directory
-            for (Cluster cluster : currentDirectory.content) {
-                if (cluster instanceof Directory && cluster.name.equals(path)) {
-                    currentDirectory = (Directory) cluster;
-                    System.out.println("Changed to directory: " + currentDirectory.name);
+            // Searching through the current directory's content for the specified directory
+            for (Cluster cluster : currentDir.content) {
+                if (cluster.type.equals("DIR") && cluster.name.equals(path)) {
+                    currentDir = (Directory) cluster;
+                    System.out.println("Successfully changed to directory: " + currentDir.name);
                     return;
                 }
             }
-            System.err.println("ERROR300: Directory " + path + " was not found!");
+            System.err.println("ERROR300: Directory " + path + " was not found inside of \"" + currentDir.parentDir + "\"!");
         }
     }
 	
@@ -40,7 +45,7 @@ public class Console {
 		
 	}
 	
-	public void createDirectory() {
+	public void createDirectory() { // Hace una llamada al método addDirectory() de la clase Fat
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("\nPlease input the NAME of the new DIRECTORY: ");
@@ -50,11 +55,11 @@ public class Console {
 			name = sc.nextLine();
 		}
 		
-		Directory newDirectory = new Directory(name, fat.firstAvailableClusterIndex(), currentDirectory);
+		Directory newDirectory = new Directory(name, fat.firstAvailableClusterIndex(), currentDir);
 		fat.addDirectory(newDirectory);
 	}
 	
-	public void createFile() { // Hacer una llamada al método addFile de la clase Fat
+	public void createFile() { // Hace una llamada al método addFile() de la clase Fat
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("\nPlease input the NAME of the new FILE: ");
@@ -92,14 +97,15 @@ public class Console {
 	}
 	
 	public void listProcesses() {
-		
+		System.out.println("List of running processes:");
+		for (Process process : processList) {
+			System.out.println("\n\tProcess ID: " + process.id);
+			System.out.println("\tProcess Name: " + process.name + "\n");
+		}
 	}
 	
-	public void launchProcess(int process) {
-		switch(process) {
-		case 1:
-			//Empezar temporizador
-		}
+	public void launchProcess(Process newProcess) {
+		processList.add(newProcess);
 	}
 	
 	public void killProcess(int process) {
