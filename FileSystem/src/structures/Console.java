@@ -37,7 +37,7 @@ public class Console {
                     return;
                 }
             }
-            System.err.println("ERROR300: Directory " + path + " was not found inside of \"" + currentDir.parentDir + "\"!");
+            System.err.println("ERROR300: Directory " + path + " was not found inside of \"" + currentDir + "\"!");
         }
     }
 	
@@ -92,7 +92,30 @@ public class Console {
 		
 	}
 	
-	void deleteFile() {
+	public void deleteFile() { //
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("\nPlease input the NAME of the FILE you want to DELETE: ");
+		String name = sc.nextLine();
+		while(name == "") {
+			System.err.println("ERROR 200: The NAME of the FILE can not be empty. Please input another name: ");
+			name = sc.nextLine();
+		}
+		System.out.println("\nPlease input the TYPE or EXTENSION of the FILE you want to DELETE: ");
+		String type = sc.nextLine();
+		while(type == "") {
+			System.err.println("ERROR 200: The TYPE of the FILE can not be empty. Please input another name: ");
+			type = sc.nextLine();
+		}
+		
+		for (Cluster cluster : currentDir.content ) {
+			if( cluster.name.equals(name) && cluster.type.equals(type.toLowerCase()));{
+				//fat.deleteFile
+				return;
+			}
+		}
+		
+		System.err.println("ERROR 202: The FILE could not be found. ");
 		
 	}
 	

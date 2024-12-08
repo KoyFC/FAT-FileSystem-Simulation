@@ -44,6 +44,9 @@ public class Main {
 		console.createFile();
 		System.out.println("\nAvailable clusters: " + fat.availableClusters());
 		
+		console.deleteFile();
+		System.out.println("\n");
+		
 		console.createDirectory();
 		System.out.println("\nAvailable clusters: " + fat.availableClusters());
 		console.createDirectory();

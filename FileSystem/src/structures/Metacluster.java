@@ -60,6 +60,6 @@ public class Metacluster {
 	@Override
 	public String toString() {
 		return "Metacluster [index=" + index + ", available=" + available + ", damaged=" + damaged + ", reserved="
-				+ reserved + ", next=" + next + ", end=" + end + ", associatedCluster=" + associatedData + "]";
+				+ reserved + ", next=" + next + ", end=" + end + "]";
 	}
 }
