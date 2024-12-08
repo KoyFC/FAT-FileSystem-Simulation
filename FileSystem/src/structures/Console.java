@@ -21,6 +21,10 @@ public class Console {
 		
 	}
 	
+	/**
+	 * Method that changes the directory under which all operations will be performed.
+	 * @param path The new directory to go to. To go back to a parent directory, use ".."
+	 */
 	public void changeDirectory(String path) {
         if (path.equals("..")) { // Parent dir
         	if (currentDir.parentDir != null) {
@@ -41,12 +45,18 @@ public class Console {
         }
     }
 	
+	/**
+	 * Method that prints each metacluster in the FAT associated with the console, taking advantage of the Metacluster class' toString() override.
+	 */
 	public void printMetadata() {
 		for (Metacluster metacluster : fat.metadata ) {
 			System.out.println( metacluster );
 		}
 	}
 	
+	/**
+	 * Method that asks the user the name of the directory they want to create and adds it to the system.
+	 */
 	public void createDirectory() { // Hace una llamada al método addDirectory() de la clase Fat
 		Scanner sc = new Scanner(System.in);
 		
@@ -61,6 +71,9 @@ public class Console {
 		fat.addDirectory(newDirectory);
 	}
 	
+	/**
+	 * Method that asks the user relevant details about the file they want to create and adds it to the system.
+	 */
 	public void createFile() { // Hace una llamada al método addFile() de la clase Fat
 		Scanner sc = new Scanner(System.in);
 		
@@ -90,11 +103,17 @@ public class Console {
 		fat.addFile(newFile, size);
 	}
 	
+	/**
+	 * Method that searches for the directory that the user inputs. If found, it calls the Fat class' method to delete it.
+	 */
 	public void deleteDirectory() {
 		
 	}
 	
-	public void deleteFile() { //
+	/**
+	 * Method that searches for the file that the user inputs. If found, it calls the Fat class' method to delete it.
+	 */
+	public void deleteFile() {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("\nPlease input the NAME of the FILE you want to DELETE: ");
@@ -111,8 +130,8 @@ public class Console {
 		}
 		
 		for (Cluster cluster : currentDir.content ) {
-			if( cluster.name.equals(name) && cluster.type.equals(type.toLowerCase()));{
-				//fat.deleteFile
+			if(cluster.name.equals(name) && cluster.type.equals(type.toLowerCase())) {
+				fat.deleteFile(cluster.firstClusterIndex);
 				return;
 			}
 		}
@@ -121,6 +140,9 @@ public class Console {
 		
 	}
 	
+	/**
+	 * Method that lists all the processes that are currently running. Process 0 is reserved for the console.
+	 */
 	public void listProcesses() {
 		System.out.println("List of running processes:");
 		for (Process process : processList) {

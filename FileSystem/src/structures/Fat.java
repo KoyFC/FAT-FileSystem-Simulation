@@ -76,9 +76,9 @@ public class Fat {
 			Metacluster currentMetaCluster;
 			Metacluster nextMetaCluster;
 			
-			file.firstClusterIndex = firstAvailableCluster().index;
+			file.firstClusterIndex = firstAvailableClusterIndex();
 			
-			for (int i = 0; i < fileSize - 1; i++) { // -1 to change the "next" and "end" for the last cluster variables separately
+			for (int i = 0; i < fileSize - 1; i++) { // -1 to change the "next" and "end" for the last cluster's variables separately
 				// We will change data from the current cluster and immediately find the next one
 				nextMetaCluster = firstAvailableCluster();
 				currentMetaCluster = nextMetaCluster;
@@ -106,6 +106,46 @@ public class Fat {
 		else {
 			System.err.print("ERROR102: Could not insert new FILE \"" + file + "\". ");
 			System.err.println("This FILE needs " + fileSize + " clusters, but there are only " + availableClusters() + " clusters currently available!");			
+		}
+	}
+	
+	/**
+	 * Method to set the "available" variable of the metacluster a directory is in to true.
+	 * @param clusterIndex The directory's index.
+	 */
+	public void deleteDirectory(int clusterIndex) {
+		int index = clusterIndex;
+		Metacluster deletedMetacluster = metadata.get(index);
+		
+		// Return in case the cluster is reserved. This is only the case with the root directory, so as to not delete it.
+		// This shouldn't happen in the first place, but just in case.
+		if (deletedMetacluster.reserved) {
+			System.err.println("...Why did you even try deleting the root directory...?");
+			return; 
+		}
+		
+		deletedMetacluster.available = true;
+	}
+	
+	/**
+	 * Method to set all the "available" variables in each file's metaclusters to true.
+	 * @param firstClusterIndex The index of the file's first cluster.
+	 */
+	public void deleteFile(int firstClusterIndex) {
+		int index = firstClusterIndex;
+		Metacluster deletedMetacluster = metadata.get(index);
+		Metacluster aux = deletedMetacluster;
+		
+		deletedMetacluster.available = true;
+		
+		// In case the file is in many clusters, we go through each one and set available to true
+		while (!aux.end) {
+			index = aux.next;
+			
+			if (index == -1) break; // This is to prevent an infinite loop (just in case)
+			
+			aux = metadata.get(index);
+			aux.available = true;
 		}
 	}
 	
