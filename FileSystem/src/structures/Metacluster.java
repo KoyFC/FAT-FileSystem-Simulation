@@ -2,12 +2,12 @@ package structures;
 
 public class Metacluster {	
 	public int index;
-	boolean available;
+	public boolean available;
 	boolean damaged;
 	boolean reserved;
-	int next;
-	boolean end;
-	Cluster associatedData;
+	public int next;
+	public boolean end;
+	public Cluster associatedData;
 	
 	/**
 	 * Empty Metacluster constructor. 
@@ -61,11 +61,11 @@ public class Metacluster {
 	public String toString() {
 		if ( next == -1) {
 			return "Metacluster " + index + ": \navailable=" + available + "\ndamaged=" + damaged + "\nreserved="
-					+ reserved + "\nnext=null\nend=" + end + "\n";
+					+ reserved + "\nnext=null\nend=" + end + "\ndata="  + associatedData + "\n";
 		}
 		else {
 			return "Metacluster " + index + ": \navailable=" + available + "\ndamaged=" + damaged + "\nreserved="
-					+ reserved + "\nnext=" + next + "\nend=" + end + "\n";
+					+ reserved + "\nnext=" + next + "\nend=" + end + "\ndata="  + associatedData + "\n";
 		}
 	}
 }

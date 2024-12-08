@@ -41,14 +41,22 @@ public class Main {
 		
 		console.listProcesses();
 		
+		
 		console.printMetadata();
 		System.out.println("\n");
 		
-		console.createFile();
+		console.createDirectory();
 		System.out.println("\nAvailable clusters: " + fat.availableClusters());
 		
+		console.printMetadata();
+		
+		console.createFile();
+		System.out.println("\nAvailable clusters: " + fat.availableClusters());
+
+		console.printMetadata();
+		
 		console.deleteFile();
-		System.out.println("\n");
+		console.printMetadata();
 		
 		console.createDirectory();
 		System.out.println("\nAvailable clusters: " + fat.availableClusters());

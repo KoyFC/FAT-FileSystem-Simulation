@@ -73,14 +73,13 @@ public class Fat {
 		}
 		
 		if (availableClusters() >= fileSize) {	
+			Metacluster nextMetaCluster = firstAvailableCluster();
 			Metacluster currentMetaCluster;
-			Metacluster nextMetaCluster;
 			
 			file.firstClusterIndex = firstAvailableClusterIndex();
 			
 			for (int i = 0; i < fileSize - 1; i++) { // -1 to change the "next" and "end" for the last cluster's variables separately
 				// We will change data from the current cluster and immediately find the next one
-				nextMetaCluster = firstAvailableCluster();
 				currentMetaCluster = nextMetaCluster;
 				
 				currentMetaCluster.associatedData = file;
@@ -88,13 +87,14 @@ public class Fat {
 				currentMetaCluster.next = nextMetaCluster.index;
 				currentMetaCluster.end = false;
 				
+				nextMetaCluster = firstAvailableCluster();
 				// System.out.println(currentMetaCluster); // DEBUG
 			}
-			currentMetaCluster = firstAvailableCluster();
+			currentMetaCluster = nextMetaCluster;
 			
-			currentMetaCluster.associatedData = file;
 			currentMetaCluster.available = false;
 			currentMetaCluster.end = true;
+			currentMetaCluster.associatedData = file;
 			console.currentDir.addContent(file);
 			
 			// System.out.println(currentMetaCluster); // DEBUG
@@ -138,15 +138,26 @@ public class Fat {
 		
 		deletedMetacluster.available = true;
 		
+		if (deletedMetacluster.end) {
+			System.out.println("\n\tFile deleted successfully.\n");
+			return;
+		}
+		
 		// In case the file is in many clusters, we go through each one and set available to true
 		while (!aux.end) {
 			index = aux.next;
 			
-			if (index == -1) break; // This is to prevent an infinite loop (just in case)
+			if (index == -1) return; // This is to prevent an infinite loop (just in case)
 			
-			aux = metadata.get(index);
+			aux = metadata.get(index + 1); // Our clusters start from 0 but indexes start from 1, so we need to add 1 to not get stuck in a loop
 			aux.available = true;
+			
+			if (aux == deletedMetacluster) {
+	            System.err.println("FATAL ERROR: Detected a cycle in the cluster chain.");
+	            return; // Preventing another infinite loop due to cycling (this happened a lot during debug)
+	        }
 		}
+		System.out.println("\n\tFile deleted successfully.\n");
 	}
 	
 	/**
