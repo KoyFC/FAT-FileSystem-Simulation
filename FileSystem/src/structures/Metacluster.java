@@ -59,7 +59,13 @@ public class Metacluster {
 
 	@Override
 	public String toString() {
-		return "Metacluster [index=" + index + ", available=" + available + ", damaged=" + damaged + ", reserved="
-				+ reserved + ", next=" + next + ", end=" + end + "]";
+		if ( next == -1) {
+			return "Metacluster " + index + ": \navailable=" + available + "\ndamaged=" + damaged + "\nreserved="
+					+ reserved + "\nnext=null\nend=" + end + "\n";
+		}
+		else {
+			return "Metacluster " + index + ": \navailable=" + available + "\ndamaged=" + damaged + "\nreserved="
+					+ reserved + "\nnext=" + next + "\nend=" + end + "\n";
+		}
 	}
 }

@@ -41,6 +41,9 @@ public class Main {
 		
 		console.listProcesses();
 		
+		console.printMetadata();
+		System.out.println("\n");
+		
 		console.createFile();
 		System.out.println("\nAvailable clusters: " + fat.availableClusters());
 		

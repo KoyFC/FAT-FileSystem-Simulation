@@ -42,7 +42,9 @@ public class Console {
     }
 	
 	public void printMetadata() {
-		
+		for (Metacluster metacluster : fat.metadata ) {
+			System.out.println( metacluster );
+		}
 	}
 	
 	public void createDirectory() { // Hace una llamada al método addDirectory() de la clase Fat
