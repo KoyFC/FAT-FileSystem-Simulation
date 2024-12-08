@@ -18,10 +18,7 @@ public class Fat {
 		metadata = new ArrayList<Metacluster>();
 		
 		rootDir = new Directory("ROOT", 0, null);
-		Metacluster rootDirMetaCluster = new Metacluster(0);
-		rootDirMetaCluster.available = false;
-		rootDirMetaCluster.end = true;
-		rootDirMetaCluster.associatedData = rootDir;
+		Metacluster rootDirMetaCluster = new Metacluster(0, false, false, true, -1, true, rootDir);
 		
 		metadata.add(rootDirMetaCluster);
 		
@@ -35,16 +32,25 @@ public class Fat {
 	 * @param directory the directory that will be inserted, if possible.
 	 */
 	public void addDirectory(Directory directory) {
+		// Checking if an identical directory already exists
+		for (Metacluster comparison : metadata) {
+			if (comparison.associatedData.name.equals(directory.name) && 
+					comparison.associatedData.type.equals(directory.type)){
+				System.err.println("ERROR103-2: An identical DIRECTORY already exists in the \"" + console.currentDir + "\" directory!");
+				return;
+			}
+		}
+		
 		if (availableClusters() > 0) {
 			Metacluster currentMetaCluster = firstAvailableCluster();
 			currentMetaCluster.available = false;
 			currentMetaCluster.end = true;
 			currentMetaCluster.associatedData = directory;
 			
-			directory.parentDir = console.currentDirectory;
-			console.currentDirectory.addContent(directory);
+			directory.parentDir = console.currentDir;
+			console.currentDir.addContent(directory);
 			
-			System.out.println("\nDIRECTORY \"" + directory + "\" was created successfully.");
+			System.out.println("\n\tDIRECTORY \"" + directory + "\" was created successfully.");
 		} 
 		else {
 			System.err.println("ERROR101-1: Could not create new DIRECTORY. No clusters are available.");
@@ -58,14 +64,13 @@ public class Fat {
 	 */
 	public void addFile(File file, int fileSize) {
 		// Checking if an identical file already exists
-		/* NO FUNCIONA POR AHORA
 		for (Metacluster comparison : metadata) {
-			if (comparison.associatedCluster.name == file.name && comparison.associatedCluster.type == file.type) {
-				System.err.println("ERROR103: An identical file already exists.");
+			if (comparison.associatedData.name.equals(file.name) && 
+					comparison.associatedData.type.equals(file.type)){
+				System.err.println("ERROR103-2: An identical FILE already exists in the \"" + console.currentDir + "\" directory!");
 				return;
 			}
 		}
-		*/
 		
 		if (availableClusters() >= fileSize) {	
 			Metacluster currentMetaCluster;
@@ -90,17 +95,17 @@ public class Fat {
 			currentMetaCluster.associatedData = file;
 			currentMetaCluster.available = false;
 			currentMetaCluster.end = true;
-			console.currentDirectory.addContent(file);
+			console.currentDir.addContent(file);
 			
 			// System.out.println(currentMetaCluster); // DEBUG
-			System.out.println("\nFILE \"" + file + "\" was created successfully.");
+			System.out.println("\n\tFILE \"" + file + "\" was created successfully.");
 		} 
-		else if (availableClusters() < fileSize){
-			System.err.print("ERROR102: Could not insert new FILE \"" + file + "\". ");
-			System.err.println("This FILE needs " + fileSize + " clusters, but there are only " + availableClusters() + " clusters currently available!");
+		else if (availableClusters() <= 0){
+			System.err.println("ERROR101-2: Could not create new FILE. No clusters are available.");
 		} 
 		else {
-			System.err.println("ERROR101-2: Could not create new FILE. No clusters are available.");
+			System.err.print("ERROR102: Could not insert new FILE \"" + file + "\". ");
+			System.err.println("This FILE needs " + fileSize + " clusters, but there are only " + availableClusters() + " clusters currently available!");			
 		}
 	}
 	
@@ -112,7 +117,7 @@ public class Fat {
 			if (current.available) return current;
 		}
 		
-		System.err.println("ERROR100: There are no clusters available!");
+		//System.err.println("ERROR100: There are no clusters available!");
 		return null;
 	}
 	
@@ -121,7 +126,7 @@ public class Fat {
 			if (current.available) return current.index;
 		}
 		
-		System.err.println("ERROR100: There are no clusters available!");
+		//System.err.println("ERROR100: There are no clusters available!");
 		return -1;
 	}
 	
