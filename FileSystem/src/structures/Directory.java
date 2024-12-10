@@ -23,6 +23,6 @@ public class Directory extends Cluster {
 	
 	@Override
 	public String toString() {
-		return name;
+		return name + content;
 	}
 }

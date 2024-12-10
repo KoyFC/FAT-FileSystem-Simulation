@@ -63,6 +63,9 @@ public class Main {
 		console.createDirectory();
 		System.out.println("\nAvailable clusters: " + fat.availableClusters());
 		
+		console.clearDirectory();
+		console.printMetadata();
+		
 		console.changeDirectory("Pelis");
 		System.out.println("Current directory: " + console.currentDir);
 		console.changeDirectory("..");

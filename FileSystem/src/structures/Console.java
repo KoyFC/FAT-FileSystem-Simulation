@@ -104,6 +104,17 @@ public class Console {
 	}
 	
 	/**
+	 * Method that clears all the contents of the current directory.
+	 */
+	public void clearDirectory() {
+		System.out.println("All contents inside the directory \"" + currentDir + "\" will be deleted.");
+		
+		int deleteCounter = fat.clearDirectory();
+		if (deleteCounter == 0) System.out.println("\tERROR400: Tried to clear the current directory \"" + currentDir + "\", but it was already empty!");
+		else System.out.println("\tThe current directory \"" + currentDir + "\" was cleared successfully.");
+	}
+	
+	/**
 	 * Method that searches for the directory that the user inputs. If found, it calls the Fat class' method to delete it.
 	 */
 	public void deleteDirectory() {

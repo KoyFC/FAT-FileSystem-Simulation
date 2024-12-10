@@ -110,6 +110,30 @@ public class Fat {
 	}
 	
 	/**
+	 * Method that deletes any file or directory inside the current directory.
+	 * @return The number of total deletions.
+	 */
+	public int clearDirectory() {
+	    int deleteCounter = 0;
+	    // Copying the existing ArrayList into another one we will iterate over
+	    // We have to do this for about the same reason as with deleteFromContents() (it doesn't work otherwise)
+	    ArrayList<Cluster> toDelete = new ArrayList<>(console.currentDir.content); 
+
+	    for (Cluster cluster : toDelete) {
+	        if (cluster.type.equals("DIR")) {
+	            deleteDirectory(cluster.firstClusterIndex);
+	        } else {
+	            deleteFile(cluster.firstClusterIndex);
+	        }
+
+	        console.currentDir.content.remove(cluster); // We remove from the original list
+	        deleteCounter++;
+	    }
+
+	    return deleteCounter;
+	}
+
+	/**
 	 * Method to set the "available" variable of the metacluster a directory is in to true.
 	 * @param clusterIndex The directory's index.
 	 */
@@ -120,11 +144,13 @@ public class Fat {
 		// Return in case the cluster is reserved. This is only the case with the root directory, so as to not delete it.
 		// This shouldn't happen in the first place, but just in case.
 		if (deletedMetacluster.reserved) {
-			System.err.println("...Why did you even try deleting the root directory...?");
+			System.err.println("...Why did you even try deleting the root directory...? Or rather, how?.");
 			return; 
 		}
 		
 		deletedMetacluster.available = true;
+		deleteFromContents(deletedMetacluster.associatedData);
+		System.out.println("\tDIRECTORY \"" + deletedMetacluster.associatedData + "\" deleted successfully.\n");
 	}
 	
 	/**
@@ -139,7 +165,7 @@ public class Fat {
 		deletedMetacluster.available = true;
 		
 		if (deletedMetacluster.end) {
-			System.out.println("\n\tFile deleted successfully.\n");
+			System.out.println("\tFILE \"" + deletedMetacluster.associatedData + "\" deleted successfully.\n");
 			return;
 		}
 		
@@ -157,7 +183,22 @@ public class Fat {
 	            return; // Preventing another infinite loop due to cycling (this happened a lot during debug)
 	        }
 		}
-		System.out.println("\n\tFile deleted successfully.\n");
+		deleteFromContents(deletedMetacluster.associatedData);
+		System.out.println("\tFILE \"" + deletedMetacluster.associatedData + "\" deleted successfully.\n");
+	}
+	
+	void deleteFromContents(Cluster deleteCluster) {
+		Cluster clusterToRemove = null; // Doing it without assigning to a temporary variable doesn't appear to work
+		
+		for (Cluster cluster : console.currentDir.content) {
+			if (cluster.name.equals(deleteCluster.name) && cluster.type.equals(deleteCluster.type)) {
+				clusterToRemove = cluster;
+				break;
+			}
+			System.out.println("Ended for iteration");
+		}
+		
+		console.currentDir.content.remove(clusterToRemove);
 	}
 	
 	/**
