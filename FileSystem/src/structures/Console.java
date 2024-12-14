@@ -7,11 +7,13 @@ public class Console {
 	Fat fat;
 	public Directory currentDir;
 	ArrayList<Process> processList = new ArrayList<Process>();
+	int processCounter;
 	
 	public Console(Fat fat) {
 		this.fat = fat;
 		this.currentDir = fat.rootDir;
 		fat.console = this;
+		processCounter=1;
 
 		Process consoleProcess = new Process(0, "Console");
 		processList.add(consoleProcess);
@@ -168,5 +170,38 @@ public class Console {
 	
 	public void killProcess(int process) {
 		
+	}
+	
+	public void createProcess()
+	{
+		Scanner sc = new Scanner(System.in);
+		int option;
+		do
+		{
+			System.out.println("Select the options below");
+			System.out.println("\n\t0-Cancel");
+			System.out.println("\n\t1-Create a new process");
+			System.out.println("\n\t2-Select an existing process");
+			option = sc.nextInt();
+
+			
+		}while(option!=0||option!=1||option!=2);
+		
+		if(option==0)
+		{
+			return;
+		}
+		
+		else if(option==1)
+		{
+			System.out.println("Input the name of the new process: ");
+			String name = sc.nextLine();
+			Process proceso = new Process(processCounter,name);
+			processCounter++;
+		}
+		else if(option==2)
+		{
+			
+		}
 	}
 }
