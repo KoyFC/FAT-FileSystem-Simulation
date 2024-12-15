@@ -183,8 +183,6 @@ public class Console {
 			System.out.println("\n\t1-Create a new process");
 			System.out.println("\n\t2-Select an existing process");
 			option = sc.nextInt();
-
-			
 		}while(option!=0||option!=1||option!=2);
 		
 		if(option==0)
@@ -198,10 +196,18 @@ public class Console {
 			String name = sc.nextLine();
 			Process proceso = new Process(processCounter,name);
 			processCounter++;
+			
+
 		}
 		else if(option==2)
 		{
-			
+			System.out.println("(this process will kill tmp every five seconds)");
+			String name = "MatarProcessosTMPcada5segundos";
+			Process proceso = new Process(processCounter,name);
+			processCounter++;
+			listProcesses();
+			//falta ir eliminando procesos cada 5 segundos, para eso se puede crear un bucle que los vaya eliminando y antes de cada eliminación parar con "Thread.sleep(5000)"
+			//para hacer el apartado 6 se puede hacer que mientras vaya matando siempre te aparezca una opción de cuando quieres que se dejen de eliminar los archivos de tmp, esa opción mataría automáticamente a : "MatarProcessosTMPcada5segundos", al ejecutarse eso se volvería a listar los procesos en ejecución.
 		}
 	}
 }

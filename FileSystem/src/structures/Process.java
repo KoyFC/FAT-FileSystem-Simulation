@@ -22,15 +22,16 @@ public class Process {
 		
 	}
 	
-	public void alarmFiveSeconds()
+	public void alarmFiveSeconds(Process currentProcess)
 	{
+		
 		// 1 - Crear un Timer:
 		Timer nombreTemporizador = new Timer();
 
 		// 2 - Definir la tarea que se tiene que ejecutar:
 		TimerTask tareaEjecutar = new TimerTask() {
 		    public void run() {
-		        
+		        //destructor
 		        nombreTemporizador.cancel(); // Puesto que ya no es necesario tener el temporizador, se borra al ejecutar la acción evitando que siga consumiendo recursos innecesariamente
 		    }
 		};
