@@ -6,6 +6,7 @@ import java.util.TimerTask;
 public class Process {
 	int id;
 	String name;
+	Fat fat;
 	
 	/**
 	 * Full Process constructor.
@@ -22,7 +23,7 @@ public class Process {
 		
 	}
 	
-	public void alarmFiveSeconds(Process currentProcess)
+	public void alarmFiveSeconds()
 	{
 		
 		// 1 - Crear un Timer:
@@ -31,7 +32,7 @@ public class Process {
 		// 2 - Definir la tarea que se tiene que ejecutar:
 		TimerTask tareaEjecutar = new TimerTask() {
 		    public void run() {
-		        //destructor
+		        fat.clearDirectory();
 		        nombreTemporizador.cancel(); // Puesto que ya no es necesario tener el temporizador, se borra al ejecutar la acción evitando que siga consumiendo recursos innecesariamente
 		    }
 		};

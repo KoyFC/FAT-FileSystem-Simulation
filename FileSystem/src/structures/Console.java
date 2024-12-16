@@ -1,6 +1,9 @@
 package structures;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Console {
 
@@ -168,11 +171,14 @@ public class Console {
 		processList.add(newProcess);
 	}
 	
-	public void killProcess(int process) {
+	public void killProcess(java.lang.Process process) throws IOException {
+		
+
+		process.destroy();
 		
 	}
 	
-	public void createProcess()
+	public void create5secondsProcess(java.lang.Process proceso)
 	{
 		Scanner sc = new Scanner(System.in);
 		int option;
@@ -180,34 +186,43 @@ public class Console {
 		{
 			System.out.println("Select the options below");
 			System.out.println("\n\t0-Cancel");
-			System.out.println("\n\t1-Create a new process");
-			System.out.println("\n\t2-Select an existing process");
+			System.out.println("\n\t1-Create a process that clears TMP directory every 5 seconds");
 			option = sc.nextInt();
-		}while(option!=0||option!=1||option!=2);
+		}while(option!=0||option!=1);
 		
 		if(option==0)
 		{
 			return;
 		}
-		
 		else if(option==1)
 		{
-			System.out.println("Input the name of the new process: ");
-			String name = sc.nextLine();
-			Process proceso = new Process(processCounter,name);
+			System.out.println("(this process will kill tmp every five seconds)");
+			String name = "BorraTMPcada5segundos";
+			
 			processCounter++;
 			
+			while(proceso.isAlive())
+			{
+				alarmFiveSeconds();
+			}
+		}
+	}
+	
+	public void alarmFiveSeconds()
+	{
+		
+		// 1 - Crear un Timer:
+		Timer nombreTemporizador = new Timer();
 
-		}
-		else if(option==2)
-		{
-			System.out.println("(this process will kill tmp every five seconds)");
-			String name = "MatarProcessosTMPcada5segundos";
-			Process proceso = new Process(processCounter,name);
-			processCounter++;
-			listProcesses();
-			//falta ir eliminando procesos cada 5 segundos, para eso se puede crear un bucle que los vaya eliminando y antes de cada eliminación parar con "Thread.sleep(5000)"
-			//para hacer el apartado 6 se puede hacer que mientras vaya matando siempre te aparezca una opción de cuando quieres que se dejen de eliminar los archivos de tmp, esa opción mataría automáticamente a : "MatarProcessosTMPcada5segundos", al ejecutarse eso se volvería a listar los procesos en ejecución.
-		}
+		// 2 - Definir la tarea que se tiene que ejecutar:
+		TimerTask tareaEjecutar = new TimerTask() {
+		    public void run() {
+		        fat.clearDirectory();
+		        nombreTemporizador.cancel(); // Puesto que ya no es necesario tener el temporizador, se borra al ejecutar la acción evitando que siga consumiendo recursos innecesariamente
+		    }
+		};
+
+		// 3 - Programar la tarea:
+		nombreTemporizador.schedule(tareaEjecutar, 5000); // Esto funciona con milisegundos
 	}
 }
