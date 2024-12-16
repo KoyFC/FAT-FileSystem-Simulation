@@ -45,6 +45,7 @@ public class Fat {
 			Metacluster currentMetaCluster = firstAvailableCluster();
 			currentMetaCluster.available = false;
 			currentMetaCluster.end = true;
+			directory.parentDir = console.currentDir;
 			currentMetaCluster.associatedData = directory;
 			
 			directory.parentDir = console.currentDir;
@@ -82,6 +83,7 @@ public class Fat {
 				// We will change data from the current cluster and immediately find the next one
 				currentMetaCluster = nextMetaCluster;
 				
+				file.parentDir = console.currentDir;
 				currentMetaCluster.associatedData = file;
 				currentMetaCluster.available = false;
 				currentMetaCluster.next = nextMetaCluster.index;

@@ -55,7 +55,7 @@ public class Console {
 	 */
 	public void printMetadata() {
 		for (Metacluster metacluster : fat.metadata ) {
-			System.out.println( metacluster );
+			if (metacluster.index != 0) System.out.println( metacluster );
 		}
 	}
 	
@@ -68,7 +68,7 @@ public class Console {
 		System.out.println("\nPlease input the NAME of the new DIRECTORY: ");
 		String name = sc.nextLine();
 		while(name == "") {
-			System.err.println("ERROR 200: The NAME of the DIRECTORY can not be empty. Please input another name: ");
+			System.err.println("ERROR200: The NAME of the DIRECTORY can not be empty. Please input another name: ");
 			name = sc.nextLine();
 		}
 		
@@ -85,25 +85,25 @@ public class Console {
 		System.out.println("\nPlease input the NAME of the new FILE: ");
 		String name = sc.nextLine();
 		while(name == "") {
-			System.err.println("ERROR 200: The NAME of the FILE can not be empty. Please input another name: ");
+			System.err.println("ERROR200: The NAME of the FILE can not be empty. Please input another name: ");
 			name = sc.nextLine();
 		}
 		
 		System.out.println("\nPlease input the TYPE or EXTENSION of the new FILE: ");
 		String type = sc.nextLine();
 		while(type == "") {
-			System.err.println("ERROR 200: The TYPE of the FILE can not be empty. Please input another name: ");
+			System.err.println("ERROR200: The TYPE of the FILE can not be empty. Please input another name: ");
 			type = sc.nextLine();
 		}
 		
 		System.out.println("\nPlease input the SIZE of the new FILE: ");
 		int size = sc.nextInt();
 		while(size <= 0) {
-			System.err.println("ERROR 201: The SIZE can not be lower than 1. Please input another number: ");
+			System.err.println("ERROR201: The SIZE can not be lower than 1. Please input another number: ");
 			size = sc.nextInt();
 		}
 		
-		File newFile = new File(name, type, fat.firstAvailableClusterIndex());
+		File newFile = new File(name, type, fat.firstAvailableClusterIndex(), currentDir);
 		
 		fat.addFile(newFile, size);
 	}
@@ -135,14 +135,14 @@ public class Console {
 		System.out.println("\nPlease input the NAME of the FILE you want to DELETE: ");
 		String name = sc.nextLine();
 		while(name == "") {
-			System.err.println("ERROR 200: The NAME of the FILE can not be empty. Please input another name: ");
+			System.err.println("ERROR200: The NAME of the FILE can not be empty. Please input another name: ");
 			name = sc.nextLine();
 		}
 		
 		System.out.println("\nPlease input the TYPE or EXTENSION of the FILE you want to DELETE: ");
 		String type = sc.nextLine();
 		while(type == "") {
-			System.err.println("ERROR 200: The TYPE of the FILE can not be empty. Please input another name: ");
+			System.err.println("ERROR200: The TYPE of the FILE can not be empty. Please input another name: ");
 			type = sc.nextLine();
 		}
 		
@@ -153,7 +153,7 @@ public class Console {
 			}
 		}
 		
-		System.err.println("ERROR 202: The FILE could not be found. ");
+		System.err.println("ERROR202: The FILE could not be found. ");
 	}
 	
 	/**

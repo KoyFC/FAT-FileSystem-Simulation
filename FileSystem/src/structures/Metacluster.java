@@ -20,7 +20,7 @@ public class Metacluster {
 		this.reserved = false;
 		this.next = -1;
 		this.end = true;
-		associatedData = new File("N/A", "N/A", -1);
+		associatedData = new File("N/A", "N/A", -1, null);
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class Metacluster {
 		this.reserved = false;
 		this.next = -1;
 		this.end = true;
-		associatedData = new File("N/A", "N/A", -1);
+		associatedData = new File("N/A", "N/A", -1, null);
 	}
 	
 	/**
@@ -58,14 +58,14 @@ public class Metacluster {
 	}
 
 	@Override
-	public String toString() {
+	public String toString() {		
 		if ( next == -1) {
 			return "Metacluster " + index + ": \navailable=" + available + "\ndamaged=" + damaged + "\nreserved="
-					+ reserved + "\nnext=null\nend=" + end + "\ndata="  + associatedData + "\n";
+					+ reserved + "\nnext=null\nend=" + end + "\ndata=" + associatedData + "\n";
 		}
 		else {
 			return "Metacluster " + index + ": \navailable=" + available + "\ndamaged=" + damaged + "\nreserved="
-					+ reserved + "\nnext=" + next + "\nend=" + end + "\ndata="  + associatedData + "\n";
+					+ reserved + "\nnext=" + next + "\nend=" + end + "\ndata=" + associatedData + "\n";
 		}
 	}
 }
