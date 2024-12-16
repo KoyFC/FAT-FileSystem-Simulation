@@ -16,22 +16,15 @@ public abstract class Cluster {
 		this.globalPath = calculateGlobalPath();
 	}
 	
-	// Dynamically calculates the global path
-    private String calculateGlobalPath() {
-        StringBuilder path = new StringBuilder();
-        Directory currentDir = parentDir;
+	private String calculateGlobalPath() {
+	    String path = "";
+	    Directory currentDir = parentDir;
 
-        // Traverse up the hierarchy
-        while (currentDir != null) {
-            path.insert(0, currentDir.name + "/");
-            currentDir = currentDir.parentDir;
-        }
+	    while (currentDir != null) {
+	        path = currentDir.name + "/" + path; // Adding the name of the current directory at the BEGINNING of the String
+	        currentDir = currentDir.parentDir;
+	    }
 
-        // If this is a directory, append its own name to the path
-        if (type.equals("DIR")) {
-            path.append(name).append("/");
-        }
-
-        return path.toString();
-    }
+	    return path;
+	}
 }
