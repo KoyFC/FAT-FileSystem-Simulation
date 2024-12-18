@@ -5,7 +5,7 @@ public abstract class Cluster {
 	String type;
 	int firstClusterIndex;
 	public Directory parentDir;
-	String globalPath;
+	public String globalPath;
 	
 	// Will be called by the children of this class.
 	public Cluster(String name, String type, int firstClusterIndex, Directory parentDir) {

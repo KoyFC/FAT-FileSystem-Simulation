@@ -21,6 +21,6 @@ public class Directory extends Cluster {
 	
 	@Override
 	public String toString() {
-		return globalPath + name + content; // CONTENT IS FOR DEBUG ONLY
+		return name + "/";
 	}
 }

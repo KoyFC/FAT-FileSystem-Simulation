@@ -14,6 +14,6 @@ public class File extends Cluster {
 
 	@Override
 	public String toString() {
-		return globalPath + name + "." + type;
+		return name + "." + type;
 	}
 }

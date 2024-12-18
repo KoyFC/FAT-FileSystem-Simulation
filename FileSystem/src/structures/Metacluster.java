@@ -61,11 +61,11 @@ public class Metacluster {
 	public String toString() {		
 		if ( next == -1) {
 			return "Metacluster " + index + ": \navailable=" + available + "\ndamaged=" + damaged + "\nreserved="
-					+ reserved + "\nnext=null\nend=" + end + "\ndata=" + associatedData + "\n";
+					+ reserved + "\nnext=null\nend=" + end + "\ndata=" + associatedData.globalPath + associatedData + "\n";
 		}
 		else {
 			return "Metacluster " + index + ": \navailable=" + available + "\ndamaged=" + damaged + "\nreserved="
-					+ reserved + "\nnext=" + next + "\nend=" + end + "\ndata=" + associatedData + "\n";
+					+ reserved + "\nnext=" + next + "\nend=" + end + "\ndata=" + associatedData.globalPath + associatedData + "\n";
 		}
 	}
 }

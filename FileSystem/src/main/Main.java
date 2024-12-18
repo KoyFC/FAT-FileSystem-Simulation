@@ -46,6 +46,7 @@ public class Main {
 		System.out.println("\n");
 		
 		console.createDirectory();
+		
 		System.out.println("\nAvailable clusters: " + fat.availableClusters());
 		
 		console.printMetadata();
@@ -63,7 +64,6 @@ public class Main {
 		console.createDirectory();
 		System.out.println("\nAvailable clusters: " + fat.availableClusters());
 		
-		console.clearDirectory();
 		console.printMetadata();
 		
 		console.changeDirectory("Pelis");
