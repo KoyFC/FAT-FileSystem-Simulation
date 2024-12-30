@@ -19,6 +19,10 @@ public class Directory extends Cluster {
         content.add(cluster);
     }
 	
+	public void removeContent(Cluster cluster) {
+		content.remove(cluster);
+	}
+	
 	@Override
 	public String toString() {
 		return name + "/";

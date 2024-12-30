@@ -140,14 +140,14 @@ public class Console {
 		}
 		
 		System.out.println("\nPlease input the TYPE or EXTENSION of the FILE you want to DELETE: ");
-		String type = sc.nextLine();
+		String type = sc.nextLine().toLowerCase();
 		while(type == "") {
 			System.err.println("ERROR200: The TYPE of the FILE can not be empty. Please input another name: ");
 			type = sc.nextLine();
 		}
 		
 		for (Cluster cluster : currentDir.content) {
-			if(cluster.name.equals(name) && cluster.type.equals(type.toLowerCase())) {
+			if(cluster.name.equals(name) && cluster.type.equals(type)) {
 				fat.deleteFile(cluster.firstClusterIndex);
 				return;
 			}

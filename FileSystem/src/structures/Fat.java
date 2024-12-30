@@ -128,7 +128,7 @@ public class Fat {
 	            deleteFile(cluster.firstClusterIndex);
 	        }
 
-	        console.currentDir.content.remove(cluster); // We remove from the original list
+	        console.currentDir.removeContent(cluster); // We remove from the original list
 	        deleteCounter++;
 	    }
 
@@ -197,10 +197,9 @@ public class Fat {
 				clusterToRemove = cluster;
 				break;
 			}
-			System.out.println("Ended for iteration");
 		}
 		
-		console.currentDir.content.remove(clusterToRemove);
+		console.currentDir.removeContent(clusterToRemove);
 	}
 	
 	/**
