@@ -67,6 +67,15 @@ public class Console {
 		}
 	}
 	
+	public void printData() {
+		System.out.println(String.format("\n%-15s %-10s %-10s", "Name", "Type", "Index"));
+        System.out.println("-------------------------------------------");
+        
+		for (Cluster cluster : currentDir.content) {
+		    cluster.printCluster();
+		}
+	}
+	
 	/**
 	 * Method that asks the user the name of the directory they want to create and adds it to the system.
 	 */

@@ -27,4 +27,8 @@ public abstract class Cluster {
 
 	    return path;
 	}
+	
+	public void printCluster() {
+		System.out.println(String.format("%-15s %-10s %-10d", name, type, firstClusterIndex));
+    }
 }
