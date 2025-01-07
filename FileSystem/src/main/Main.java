@@ -11,15 +11,13 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		Fat fat = new Fat(6);
 		Console console = new Console(fat);
-		
-		// TODO: ESTA PARTE HAY QUE MOVERLA A LA CLASE CONSOLA
-		
+
 		int choice = 1; // Initialize the choice to 1 so that we can enter the choice loop later on
 		
 		do {
 			System.out.println("\n[------------- Main menu -------------]\n");
 			
-			System.out.println("Current directory: " +console.currentDir.globalPath + console.currentDir);
+			System.out.println("Current directory: " + console.currentDir.globalPath + console.currentDir);
 			
 			System.out.println("\n1. Show metadata");
 			System.out.println("2. Create directory");
@@ -33,52 +31,59 @@ public class Main {
 			System.out.println("10. Kill process");
 			System.out.println("11. Salir");
 			
-			System.out.print("\nPor favor, seleccione la accion que desea realizar: ");
+			System.out.print("\nPlease input the number of the choice you want to make: ");
 			choice = sc.nextInt();
 			
 			while (choice < 1 || choice > 11) {
+				System.out.print("\nYou entered a choice outside the allowed range. Please input one of the presented choices (1 - 11): ");
 				System.out.print("\nHa introducido una opcion fuera del rango permitido. Introduzca una de las opciones presentadas: ");
 				choice = sc.nextInt();
 			}
 			
 			switch (choice) {
 			case 1:
+				System.out.println("\n[------------- Metadata -------------]\n");
 				console.printMetadata();
 				break;
-				
 			case 2:
+				System.out.println("\n\n[------------- Create new Directory -------------]");
 				console.createDirectory();
 				break;
 			case 3:
+				System.out.println("\n\n[------------- Create new File -------------]");
 				console.createFile();
 				break;
 			case 4:
+				System.out.println("\n[------------- Change current Directory -------------]\n");
 				console.changeDirectory();
 				break;
 			case 5:
-				console.clearDirectory();;
+				System.out.println("\n[------------- Clear current directory -------------]");
+				console.clearDirectory();
 				break;
 			case 6:
-				console.deleteDirectory();;
+				System.out.println("\n[------------- Delete a Directory -------------]");
+				console.deleteDirectory();
 				break;
 			case 7:
-				console.deleteFile();;
+				System.out.println("\n[------------- Delete a File -------------]");
+				console.deleteFile();
 				break;
 			case 8:
+				System.out.println("\n[------------- List of all running processes -------------]\n");
 				console.listProcesses();
 				break;
 			case 9:
-				console.createDirectory();
+				System.out.println("\n[------------- Start new process -------------]");
+				
 				break;
 			case 10:
-				console.createDirectory();
+				System.out.println("\n[------------- Kill process -------------]");
+
 				break;
 			}
 		} while (choice != 11); 
 		
-		System.out.println("\n");
-
-		// DEBUG ZONE
-		
+		System.out.println("\nThank you for using this simulator.");
 	}
 }

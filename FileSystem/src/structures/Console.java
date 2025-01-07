@@ -32,8 +32,9 @@ public class Console {
 	 */
 	public void changeDirectory() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Please input the name of the directory you want to chage to:");
+		System.out.print("Please input the name of the directory you want to chage to:");
 		String path = sc.nextLine();
+		
         if (path.equals("..")) { // Parent dir
         	if (currentDir.parentDir != null) {
         		currentDir = currentDir.parentDir;
@@ -68,7 +69,7 @@ public class Console {
 	public void createDirectory() { // Hace una llamada al método addDirectory() de la clase Fat
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("\nPlease input the NAME of the new DIRECTORY: ");
+		System.out.print("\nPlease input the NAME of the new DIRECTORY: ");
 		String name = sc.nextLine();
 		while(name == "") {
 			System.err.println("ERROR200: The NAME of the DIRECTORY can not be empty. Please input another name: ");
@@ -85,24 +86,24 @@ public class Console {
 	public void createFile() { // Hace una llamada al método addFile() de la clase Fat
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("\nPlease input the NAME of the new FILE: ");
+		System.out.print("\nPlease input the NAME of the new FILE: ");
 		String name = sc.nextLine();
 		while(name == "") {
-			System.err.println("ERROR200: The NAME of the FILE can not be empty. Please input another name: ");
+			System.err.print("ERROR200: The NAME of the FILE can not be empty. Please input another name: ");
 			name = sc.nextLine();
 		}
 		
-		System.out.println("\nPlease input the TYPE or EXTENSION of the new FILE: ");
+		System.out.print("\nPlease input the TYPE or EXTENSION of the new FILE: ");
 		String type = sc.nextLine();
 		while(type == "") {
-			System.err.println("ERROR200: The TYPE of the FILE can not be empty. Please input another name: ");
+			System.err.print("ERROR200: The TYPE of the FILE can not be empty. Please input another name: ");
 			type = sc.nextLine();
 		}
 		
-		System.out.println("\nPlease input the SIZE of the new FILE: ");
+		System.out.print("\nPlease input the SIZE of the new FILE: ");
 		int size = sc.nextInt();
 		while(size <= 0) {
-			System.err.println("ERROR201: The SIZE can not be lower than 1. Please input another number: ");
+			System.err.print("ERROR201: The SIZE can not be lower than 1. Please input another number: ");
 			size = sc.nextInt();
 		}
 		
@@ -115,7 +116,7 @@ public class Console {
 	 * Method that clears all the contents of the current directory.
 	 */
 	public void clearDirectory() {
-		System.out.println("All contents inside the directory \"" + currentDir + "\" will be deleted.");
+		System.out.println("All contents inside the directory \"" + currentDir + "\" will be deleted.\n");
 		
 		int deleteCounter = fat.clearDirectory();
 		if (deleteCounter == 0) System.out.println("\tERROR400: Tried to clear the current directory \"" + currentDir + "\", but it was already empty!");
@@ -126,7 +127,23 @@ public class Console {
 	 * Method that searches for the directory that the user inputs. If found, it calls the Fat class' method to delete it.
 	 */
 	public void deleteDirectory() {
+		Scanner sc = new Scanner(System.in);
 		
+		System.out.print("\nPlease input the NAME of the DIRECTORY you want to DELETE: ");
+		String name = sc.nextLine();
+		while(name == "") {
+			System.err.print("ERROR200: The NAME of the DIRECTORY can not be empty. Please input another name: ");
+			name = sc.nextLine();
+		}
+		
+		for (Cluster cluster : currentDir.content) {
+			if(cluster.name.equals(name) && cluster.type.equals("DIR")) {
+				fat.deleteDirectory(cluster.firstClusterIndex);
+				return;
+			}
+		}
+		
+		System.err.println("ERROR203: The DIRECTORY could not be found.");
 	}
 	
 	/**
@@ -135,17 +152,17 @@ public class Console {
 	public void deleteFile() {
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("\nPlease input the NAME of the FILE you want to DELETE: ");
+		System.out.print("\nPlease input the NAME of the FILE you want to DELETE: ");
 		String name = sc.nextLine();
 		while(name == "") {
-			System.err.println("ERROR200: The NAME of the FILE can not be empty. Please input another name: ");
+			System.err.print("ERROR200: The NAME of the FILE can not be empty. Please input another name: ");
 			name = sc.nextLine();
 		}
 		
-		System.out.println("\nPlease input the TYPE or EXTENSION of the FILE you want to DELETE: ");
+		System.out.print("\nPlease input the TYPE or EXTENSION of the FILE you want to DELETE: ");
 		String type = sc.nextLine().toLowerCase();
 		while(type == "") {
-			System.err.println("ERROR200: The TYPE of the FILE can not be empty. Please input another name: ");
+			System.err.print("ERROR200: The TYPE of the FILE can not be empty. Please input another name: ");
 			type = sc.nextLine();
 		}
 		
@@ -156,7 +173,7 @@ public class Console {
 			}
 		}
 		
-		System.err.println("ERROR202: The FILE could not be found. ");
+		System.err.println("ERROR202: The FILE could not be found.");
 	}
 	
 	/**
