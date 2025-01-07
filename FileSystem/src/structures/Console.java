@@ -9,16 +9,14 @@ public class Console {
 
 	Fat fat;
 	public Directory currentDir;
-	ArrayList<Process> processList = new ArrayList<Process>();
+	ArrayList<java.lang.Process> processList = new ArrayList<java.lang.Process>();
 	int processCounter;
-	
-	public Console(Fat fat) {
+	public Console(Fat fat) throws IOException {
 		this.fat = fat;
 		this.currentDir = fat.rootDir;
 		fat.console = this;
 		processCounter=1;
-
-		Process consoleProcess = new Process(0, "Console");
+		java.lang.Process consoleProcess = Runtime.getRuntime().exec("console");
 		processList.add(consoleProcess);
 	}
 	
@@ -181,24 +179,26 @@ public class Console {
 	 */
 	public void listProcesses() {
 		System.out.println("List of running processes:");
-		for (Process process : processList) {
-			System.out.println("\n\tProcess ID: " + process.id);
-			System.out.println("\tProcess Name: " + process.name + "\n");
+		for (java.lang.Process process : processList) {
+			System.out.println("\n\tProcess ID: " + process.pid());
+			if(process.pid()==1) {
+				System.out.println("Proceso consola");
+			}
+			if(process.pid()==2) {
+				System.out.println("Proceso BorraTMPcada5segundos");
+			}
 		}
 	}
 	
-	public void launchProcess(Process newProcess) {
+	public void launchProcess(java.lang.Process newProcess) {
 		processList.add(newProcess);
 	}
 	
 	public void killProcess(java.lang.Process process) throws IOException {
-		
-
 		process.destroy();
-		
 	}
 	
-	public void create5secondsProcess(java.lang.Process proceso)
+	public void create5secondsProcess(java.lang.Process proceso) throws IOException
 	{
 		Scanner sc = new Scanner(System.in);
 		int option;
@@ -216,9 +216,9 @@ public class Console {
 		}
 		else if(option==1)
 		{
+			java.lang.Process consoleProcess = Runtime.getRuntime().exec("BorraTMPcada5Segundos");
+			processList.add(consoleProcess);
 			System.out.println("(this process will kill tmp every five seconds)");
-			String name = "BorraTMPcada5segundos";
-			
 			processCounter++;
 			
 			while(proceso.isAlive())

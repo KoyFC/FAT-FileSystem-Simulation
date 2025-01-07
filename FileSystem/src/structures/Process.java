@@ -22,22 +22,4 @@ public class Process {
 		
 		
 	}
-	
-	public void alarmFiveSeconds()
-	{
-		
-		// 1 - Crear un Timer:
-		Timer nombreTemporizador = new Timer();
-
-		// 2 - Definir la tarea que se tiene que ejecutar:
-		TimerTask tareaEjecutar = new TimerTask() {
-		    public void run() {
-		        fat.clearDirectory();
-		        nombreTemporizador.cancel(); // Puesto que ya no es necesario tener el temporizador, se borra al ejecutar la acción evitando que siga consumiendo recursos innecesariamente
-		    }
-		};
-
-		// 3 - Programar la tarea:
-		nombreTemporizador.schedule(tareaEjecutar, 5000); // Esto funciona con milisegundos
-	}
 }
