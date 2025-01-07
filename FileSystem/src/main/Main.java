@@ -2,11 +2,13 @@ package main;
 import structures.Fat;
 import structures.Console;
 import structures.Directory;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		Scanner sc = new Scanner(System.in);
 		Fat fat = new Fat(6);
