@@ -16,8 +16,14 @@ public class Console {
 		this.currentDir = fat.rootDir;
 		fat.console = this;
 		processCounter=1;
-		java.lang.Process consoleProcess = Runtime.getRuntime().exec("console");
-		processList.add(consoleProcess);
+		try
+		{
+			java.lang.Process consoleProcess = Runtime.getRuntime().exec("console");
+			processList.add(consoleProcess);
+		}catch (Exception e) {
+		    e.printStackTrace();
+		}
+
 	}
 	
 	public void mainMessage() {
@@ -216,10 +222,16 @@ public class Console {
 		}
 		else if(option==1)
 		{
-			java.lang.Process consoleProcess = Runtime.getRuntime().exec("BorraTMPcada5Segundos");
-			processList.add(consoleProcess);
-			System.out.println("(this process will kill tmp every five seconds)");
-			processCounter++;
+			try
+			{
+				java.lang.Process BorraTMPcada5Segundos = Runtime.getRuntime().exec("BorraTMPcada5Segundos");
+				processList.add(BorraTMPcada5Segundos);
+				System.out.println("(this process will kill tmp every five seconds)");
+				processCounter++;
+			}catch (Exception e) {
+			    e.printStackTrace();
+			}
+
 			
 			while(proceso.isAlive())
 			{
