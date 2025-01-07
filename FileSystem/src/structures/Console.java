@@ -30,7 +30,10 @@ public class Console {
 	 * Method that changes the directory under which all operations will be performed.
 	 * @param path The new directory to go to. To go back to a parent directory, use ".."
 	 */
-	public void changeDirectory(String path) {
+	public void changeDirectory() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Please input the name of the directory you want to chage to:");
+		String path = sc.nextLine();
         if (path.equals("..")) { // Parent dir
         	if (currentDir.parentDir != null) {
         		currentDir = currentDir.parentDir;
