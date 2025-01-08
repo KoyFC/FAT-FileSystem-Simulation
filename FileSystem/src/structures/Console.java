@@ -1,33 +1,24 @@
 package structures;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Console {
 
 	Fat fat;
 	public Directory currentDir;
-	ArrayList<java.lang.Process> processList = new ArrayList<java.lang.Process>();
 	int processCounter;
-	public Console(Fat fat) throws IOException {
-		this.fat = fat;
-		this.currentDir = fat.rootDir;
-		fat.console = this;
-		processCounter=1;
-		try
-		{
-			java.lang.Process consoleProcess = Runtime.getRuntime().exec("console");
-			processList.add(consoleProcess);
-		}catch (Exception e) {
-		    e.printStackTrace();
-		}
+	ArrayList<Process> processList;
 
-	}
-	
-	public void mainMessage() {
-		
+	public Console(Fat fat) {
+	    this.fat = fat;
+	    this.currentDir = fat.rootDir;
+	    fat.console = this;
+	    processCounter = 1;
+	    processList = new ArrayList<Process>();
+	    
+	    Process consoleProcess = new Process("Console", this, fat);
+        processList.add(consoleProcess);
+        System.out.println("Initialized console process with PID: " + consoleProcess.getPid());
 	}
 	
 	/**
@@ -193,77 +184,38 @@ public class Console {
 	 * Method that lists all the processes that are currently running. Process 0 is reserved for the console.
 	 */
 	public void listProcesses() {
-		System.out.println("List of running processes:");
-		for (java.lang.Process process : processList) {
-			System.out.println("\n\tProcess ID: " + process.pid());
-			if(process.pid()==1) {
-				System.out.println("Proceso consola");
-			}
-			if(process.pid()==2) {
-				System.out.println("Proceso BorraTMPcada5segundos");
-			}
-		}
-	}
+        System.out.println("List of running processes:");
+        for (Process process : processList) {
+            System.out.println("\tPID: " + process.getPid() + ", Name: " + process.getName() + ", Status: " + (process.isAlive() ? "Alive" : "Terminated"));
+        }
+    }
 	
-	public void launchProcess(java.lang.Process newProcess) {
-		processList.add(newProcess);
-	}
-	
-	public void killProcess(java.lang.Process process) throws IOException {
-		process.destroy();
-	}
-	
-	public void create5secondsProcess(java.lang.Process proceso) throws IOException
-	{
+	public void createProcess() {
+		System.out.print("Please input the name of the process you want to create: ");
 		Scanner sc = new Scanner(System.in);
-		int option;
-		do
-		{
-			System.out.println("Select the options below");
-			System.out.println("\n\t0-Cancel");
-			System.out.println("\n\t1-Create a process that clears TMP directory every 5 seconds");
-			option = sc.nextInt();
-		}while(option!=0||option!=1);
+		String name = sc.nextLine();
 		
-		if(option==0)
-		{
-			return;
-		}
-		else if(option==1)
-		{
-			try
-			{
-				java.lang.Process BorraTMPcada5Segundos = Runtime.getRuntime().exec("BorraTMPcada5Segundos");
-				processList.add(BorraTMPcada5Segundos);
-				System.out.println("(this process will kill tmp every five seconds)");
-				processCounter++;
-			}catch (Exception e) {
-			    e.printStackTrace();
-			}
-
-			
-			while(proceso.isAlive())
-			{
-				alarmFiveSeconds();
-			}
-		}
-	}
+        Process process = new Process(name, this, fat);
+        processList.add(process);
+        process.startPeriodicExecution();
+        System.out.println("Process " + name + " (PID: " + process.getPid() + ") started.");
+    }
 	
-	public void alarmFiveSeconds()
-	{
+	public void terminateProcess() {
+		System.out.print("Please input the PID of the process you want to kill: ");
+		Scanner sc = new Scanner(System.in);
+		int pid = sc.nextInt();
 		
-		// 1 - Crear un Timer:
-		Timer nombreTemporizador = new Timer();
-
-		// 2 - Definir la tarea que se tiene que ejecutar:
-		TimerTask tareaEjecutar = new TimerTask() {
-		    public void run() {
-		        fat.clearDirectory();
-		        nombreTemporizador.cancel(); // Puesto que ya no es necesario tener el temporizador, se borra al ejecutar la acción evitando que siga consumiendo recursos innecesariamente
-		    }
-		};
-
-		// 3 - Programar la tarea:
-		nombreTemporizador.schedule(tareaEjecutar, 5000); // Esto funciona con milisegundos
-	}
+        for (Process process : processList) {
+            if (process.getPid() == pid) {
+            	if (pid == 0) {
+                    System.out.println("Console process (PID 0) is terminating. Exiting the program...");
+                    System.exit(0); // Terminates the program
+                }
+                process.terminate();
+                return;
+            }
+        }
+        System.out.println("Process with PID " + pid + " not found.");
+    }
 }

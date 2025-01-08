@@ -1,7 +1,6 @@
 package main;
 import structures.Fat;
 import structures.Console;
-import structures.Directory;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -79,11 +78,11 @@ public class Main {
 				break;
 			case 9:
 				System.out.println("\n[------------- Start new process -------------]");
-
+				console.createProcess();
 				break;
 			case 10:
 				System.out.println("\n[------------- Kill process -------------]");
-
+				console.terminateProcess();
 				break;
 			case 12:
 				System.out.println("\n[------------- Print current Directory -------------]");
