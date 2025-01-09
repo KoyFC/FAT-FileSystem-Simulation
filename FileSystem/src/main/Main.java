@@ -28,7 +28,7 @@ public class Main {
 			System.out.println("6. Delete directory");
 			System.out.println("7. Delete file");
 			System.out.println("8. Process list");
-			System.out.println("9. Start new process");
+			System.out.println("9. Start new process (write borratmpcada5segundos to create a Killer TMP process)");
 			System.out.println("10. Kill process");
 			System.out.println("11. Exit");
 			
@@ -39,7 +39,7 @@ public class Main {
 			choice = sc.nextInt();
 			
 			while (choice < 1 || choice > 12) {
-				System.out.print("\nYou entered a choice outside the allowed range. Please input one of the presented choices (1 - 11): ");
+				System.out.print("\nYou entered a choice outside the allowed range. Please input one of the presented choices (1 - 12): ");
 				choice = sc.nextInt();
 			}
 			
