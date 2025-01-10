@@ -25,6 +25,7 @@ public class Fat {
 		for (int i = 1; i <= clusterNumber; i++) {
             metadata.add(new Metacluster(i));
         }
+		System.out.println("Initialized FAT with " + clusterNumber + " clusters.");
 	}
 	
 	/**

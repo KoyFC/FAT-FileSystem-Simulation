@@ -34,7 +34,7 @@ public class Metacluster {
 		this.reserved = false;
 		this.next = -1;
 		this.end = true;
-		associatedData = new File("N/A", "N/A", -1, null);
+		associatedData = new Directory("N/A", -1, null);
 	}
 	
 	/**
@@ -60,12 +60,12 @@ public class Metacluster {
 	@Override
 	public String toString() {		
 		if ( next == -1) {
-			return "Metacluster " + index + ": \navailable=" + available + "\ndamaged=" + damaged + "\nreserved="
-					+ reserved + "\nnext=null\nend=" + end + "\ndata=" + associatedData.globalPath + associatedData + "\n";
+			return "Metacluster " + index + ": \nAvailable: " + available + "\nDamaged: " + damaged + "\nReserved: "
+					+ reserved + "\nNext: None\nEnd: " + end + "\nData: " + associatedData.globalPath + associatedData + "\n";
 		}
 		else {
-			return "Metacluster " + index + ": \navailable=" + available + "\ndamaged=" + damaged + "\nreserved="
-					+ reserved + "\nnext=" + next + "\nend=" + end + "\ndata=" + associatedData.globalPath + associatedData + "\n";
+			return "Metacluster " + index + ": \nAvailable: " + available + "\nDamaged: " + damaged + "\nReserved: "
+					+ reserved + "\nNext: " + next + "\nEnd: " + end + "\nData: " + associatedData.globalPath + associatedData + "\n";
 		}
 	}
 }

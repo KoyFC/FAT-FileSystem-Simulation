@@ -16,7 +16,7 @@ public class Console {
 	    processCounter = 1;
 	    processList = new ArrayList<Process>();
 	    
-	    Process consoleProcess = new Process("Console", this, fat);
+	    Process consoleProcess = new Process("Console", 0, 0, null, null, this, fat);
         processList.add(consoleProcess);
         System.out.println("Initialized console process with PID: " + consoleProcess.getPid());
 	}
@@ -54,7 +54,7 @@ public class Console {
 	 */
 	public void printMetadata() {
 		for (Metacluster metacluster : fat.metadata ) {
-			if (metacluster.index != 0) System.out.println( metacluster );
+			if (metacluster.index != 0) System.out.println(metacluster);
 		}
 	}
 	
@@ -190,17 +190,97 @@ public class Console {
         }
     }
 	
+	/**
+	 * Method that asks the user for the name of the process they want to create,
+	 * then asks them for the action they want it to perform,
+	 * then asks them the interval in which the process should be executed (0 = never).
+	 * Based on the action selected, they may be prompted to input the name of the file, type, or cluster count.
+	 * 
+	 * WARNING: A big switch may found be here. Proceed with caution.
+	 */
 	public void createProcess() {
 		System.out.print("Please input the name of the process you want to create: ");
 		Scanner sc = new Scanner(System.in);
 		String name = sc.nextLine();
 		
-        Process process = new Process(name, this, fat);
-        processList.add(process);
-        process.startPeriodicExecution();
-        System.out.println("Process " + name + " (PID: " + process.getPid() + ") started.");
+		System.out.println("\nThese are what the actions you can make your process do: ");
+		System.out.println("\t1. Create Directory");
+		System.out.println("\t2. Create File");
+		System.out.println("\t3. Delete Directory");
+		System.out.println("\t4. Delete File");
+		System.out.println("\t5. Clear directory");
+		System.out.print("\nPlease input the number of what you want the process to do: ");
+		int action = sc.nextInt();
+		
+		while (action < 1 || action > 5) {
+			System.err.print("The value you entered is outside the range. Please input the number again: ");
+			action = sc.nextInt();
+		}
+		
+		System.out.print("\nPlease input the interval in SECONDS in which you want the process to execute (0 never starts the task): ");
+		float interval = sc.nextFloat() * 1000;
+		
+		while (interval < 0) {
+			System.err.print("The value you entered can not be negative. Please input the number again: ");
+			interval = sc.nextFloat();
+		}
+		sc.nextLine(); // Clearing the input buffer
+		
+		Process newProcess = null;
+		String clusterName = "", clusterType = "";
+		switch (action) {
+		case 1:
+			System.out.println("\n\tThis will try to create the specified Directory in the current directory each time it is executed.");
+			System.out.print("\nPlease input the name of the Directory the process should create: ");
+			clusterName = sc.nextLine();
+			
+			newProcess = new Process(name, action, interval, clusterName, "DIR", 1, this, fat);
+			break;
+			
+		case 2:
+			System.out.println("\n\tThis will try to create the specified File in the current directory each time it is executed.");
+			System.out.print("\nPlease input the name of the File the process should create: ");
+			clusterName = sc.nextLine();
+			System.out.print("\nPlease input the name of the File the process should create: ");
+			clusterType = sc.nextLine();
+			System.out.print("\nPlease input the size of the File the process should create: ");
+			int clusterCount = sc.nextInt();
+			
+			newProcess = new Process(name, action, interval, clusterName, clusterType, clusterCount, this, fat);
+			break;
+			
+		case 3:
+			System.out.println("\n\tThis will try to delete the specified Directory in the current directory each time it is executed.");
+			System.out.print("\nPlease input the name of the Directory the process should delete: ");
+			clusterName = sc.nextLine();
+			
+			newProcess = new Process(name, action, interval, clusterName, "DIR", 1, this, fat);
+			break;
+			
+		case 4:
+			System.out.println("\n\tThis will try to delete the specified File in the current directory each time it is executed.");
+			System.out.print("\nPlease input the name of the File the process should delete: ");
+			clusterName = sc.nextLine();
+			System.out.print("\nPlease input the name of the File the process should delete: ");
+			clusterType = sc.nextLine();
+			
+			newProcess = new Process(name, action, interval, clusterName, clusterType, this, fat);
+			break;
+			
+		case 5:
+			System.out.println("\n\tThis will clear the current Directory each time it is executed.");
+			newProcess = new Process(name, action, interval, this, fat);
+			break;
+		}
+		
+        processList.add(newProcess);
+        newProcess.startPeriodicExecution();
+        System.out.println("Process " + name + " (PID: " + newProcess.getPid() + ") started.");
     }
 	
+	/**
+	 * Terminates a specific process. The user must input its PID.
+	 */
 	public void terminateProcess() {
 		System.out.print("Please input the PID of the process you want to kill: ");
 		Scanner sc = new Scanner(System.in);
@@ -216,6 +296,6 @@ public class Console {
                 return;
             }
         }
-        System.out.println("Process with PID " + pid + " not found.");
+        System.err.println("ERROR500: Process with PID " + pid + " was not found.");
     }
 }

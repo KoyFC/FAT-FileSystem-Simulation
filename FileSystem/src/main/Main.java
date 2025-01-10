@@ -10,7 +10,11 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		
 		Scanner sc = new Scanner(System.in);
-		Fat fat = new Fat(6);
+		
+		System.out.print("Please input the number of clusters you want the FAT system to have: ");
+		int clusterNumber = sc.nextInt();
+		
+		Fat fat = new Fat(clusterNumber);
 		Console console = new Console(fat);
 
 		int choice = 1; // Initialize the choice to 1 so that we can enter the choice loop later on
@@ -28,7 +32,7 @@ public class Main {
 			System.out.println("6. Delete directory");
 			System.out.println("7. Delete file");
 			System.out.println("8. Process list");
-			System.out.println("9. Start new process (write borratmpcada5segundos to create a Killer TMP process)");
+			System.out.println("9. Start new process");
 			System.out.println("10. Kill process");
 			System.out.println("11. Exit");
 			
